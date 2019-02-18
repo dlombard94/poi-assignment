@@ -1,3 +1,3 @@
-const Controller = require('./controller.js');
+const Pois = require('./app/controllers/pois');
 
-module.exports = [{ method: 'GET', path: '/', config: Controller.index }];
+module.exports = [{ method: 'GET', path: '/', config: Pois.index }];
