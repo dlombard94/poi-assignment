@@ -1,17 +1,9 @@
+'use strict';
+
 const Pois = {
-    index: {
+    home: {
         handler: function(request, h) {
-            return h.file('./app/views/main.html');
-        }
-    },
-    signup: {
-        handler: function(request, h) {
-            return h.file('./app/views/signup.html');
-        }
-    },
-    login: {
-        handler: function(request, h) {
-            return h.file('./app/views/login.html');
+            return h.view('home', { title: 'Your Island Experience' });
         }
     }
 };
