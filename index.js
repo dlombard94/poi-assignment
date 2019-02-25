@@ -1,4 +1,5 @@
 'use strict';
+require('dotenv').config();
 
 const Hapi = require('hapi');
 
@@ -7,9 +8,10 @@ const server = Hapi.server({
     host: 'localhost'
 });
 
-server.bind({
-    users: [],
-});
+// server.bind({
+//     users: [],
+// });
+require('./app/models/db');
 
 async function init() {
     await server.register(require('inert'));
@@ -30,8 +32,8 @@ async function init() {
     });
 
     server.auth.strategy('standard', 'cookie', {
-        password: 'secretpasswordnotrevealedtoanyone',
-        cookie: 'donation-cookie',
+        password: process.env.cookie_password,
+        cookie: process.env.cookie_name,
         isSecure: false,
         ttl: 24 * 60 * 60 * 1000,
         redirectTo: '/'

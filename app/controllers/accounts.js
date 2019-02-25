@@ -1,4 +1,5 @@
 'use strict';
+const User = require('../models/user');
 
 const Accounts = {
     index: {
@@ -15,10 +16,16 @@ const Accounts = {
     },
     signup: {
         auth: false,
-        handler: function(request, h) {
-            const user = request.payload;
-            this.users[user.email] = user;
-            request.cookieAuth.set({ id: user.email });
+        handler: async function(request, h) {
+            const payload = request.payload;
+            const newUser = new User({
+                firstName: payload.firstName,
+                lastName: payload.lastName,
+                email: payload.email,
+                password: payload.password
+            });
+            const user = await newUser.save();
+            request.cookieAuth.set({ id: user.id });
             return h.redirect('/home');
         }
     },
@@ -30,13 +37,20 @@ const Accounts = {
     },
     login: {
         auth: false,
-        handler: function(request, h) {
-            const user = request.payload;
-            if ((user.email in this.users) && (user.password === this.users[user.email].password)) {
-                request.cookieAuth.set({ id: user.email });
+        handler: async function(request, h) {
+            const { email, password } = request.payload;
+            try {
+                let user = await User.findByEmail(email);
+                if (!user) {
+                    const message = 'Email address is not registered';
+                    throw new Boom(message);
+                }
+                user.comparePassword(password);
+                request.cookieAuth.set({ id: user.id });
                 return h.redirect('/home');
+            } catch (err) {
+                return h.view('login', { errors: [{ message: err.message }] });
             }
-            return h.redirect('/');
         }
     },
     logout: {
@@ -45,7 +59,21 @@ const Accounts = {
             request.cookieAuth.clear();
             return h.redirect('/');
         }
-    }
+    },
+    showSettings: {
+        handler: function(request, h) {
+            var userEmail = request.auth.credentials.id;
+            const userDetails = this.users[userEmail];
+            return h.view('settings', { title: 'Islands Settings', user: userDetails });
+        }
+    },
+    updateSettings: {
+        handler: function(request, h) {
+            const user = request.payload;
+            this.users[user.email] = user;
+            return h.redirect('/home');
+        }
+    },
 };
 
 module.exports = Accounts;
