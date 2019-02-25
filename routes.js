@@ -1,4 +1,4 @@
-const Pois = require('./app/controllers/pois');
+const Islands = require('./app/controllers/island');
 const Accounts = require('./app/controllers/accounts');
 
 
@@ -11,7 +11,9 @@ module.exports = [
     { method: 'POST', path: '/login', config: Accounts.login },
     { method: 'GET', path: '/settings', config: Accounts.showSettings },
     { method: 'POST', path: '/settings', config: Accounts.updateSettings },
-    { method: 'GET', path: '/home', config: Pois.home },
+    { method: 'POST', path: '/addIsland', config: Islands.addIsland },
+    { method: 'GET', path: '/list', config: Islands.list },
+    { method: 'GET', path: '/home', config: Islands.home },
     {
         method: 'GET',
         path: '/{param*}',
