@@ -19,16 +19,20 @@ const Islands = {
     },
     addIsland: {
         handler: async function(request, h) {
-            const id = request.auth.credentials.id;
-            const user = await User.findById(id);
-            const data = request.payload;
-            const newIsland = new Island({
-                area: data.area,
-                name: data.name,
-                user: user._id
-            });
-            await newIsland.save();
-            return h.redirect('/list');
+            try{
+                const id = request.auth.credentials.id;
+                const user = await User.findById(id);
+                const data = request.payload;
+                const newIsland = new Island({
+                    area: data.area,
+                    name: data.name,
+                    user: user._id
+                });
+                await newIsland.save();
+                return h.redirect('/list');
+            }catch (err) {
+            return h.view('main', { errors: [{ message: err.message }] });
+            }
         }
     }
 };
