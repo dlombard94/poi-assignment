@@ -7,6 +7,20 @@ const Mongoose = require('mongoose');
 Mongoose.connect(process.env.db);
 const db = Mongoose.connection;
 
+async function seed() {
+    var seeder = require('mais-mongoose-seeder')(Mongoose);
+    const data = require('./initdata.json');
+    const Island = require('./island');
+    const User = require('./user');
+    const dbData = await seeder.seed(data, { dropDatabase: false, dropCollections: true });
+    console.log(dbData);
+}
+
+db.once('open', function() {
+    console.log(`database connected to ${this.name} on ${this.host}`);
+    seed();
+})
+
 db.on('error', function(err) {
     console.log(`database connection error: ${err}`);
 });

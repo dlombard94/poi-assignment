@@ -1,0 +1,25 @@
+{
+  "users": {
+    "_model": "User",
+    "homer": {
+      "firstName": "Homer",
+      "lastName": "Simpson",
+      "email": "homer@simpson.com",
+      "password": "secret"
+    },
+    "bart": {
+      "firstName": "Bart",
+      "lastName": "Simpson",
+      "email": "bart@simpson.com",
+      "password": "secret"
+    }
+  },
+  "islands": {
+    "_model": "Island",
+    "one": {
+      "area": 40,
+      "name": "Island 1",
+      "addedBy": "->users.homer"
+    }
+  }
+}

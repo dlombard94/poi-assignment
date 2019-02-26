@@ -6,7 +6,7 @@ const Schema = Mongoose.Schema;
 const islandSchema = new Schema({
     area: Number,
     name: String,
-    user: {
+    addedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     }

@@ -10,7 +10,7 @@ const Islands = {
     },
     list: {
         handler: async function(request, h) {
-            const islands = await Island.find().populate('user')
+            const islands = await Island.find().populate('addedBy')
             return h.view('list', {
                 title: 'List of Islands',
                 islands: islands
@@ -26,7 +26,7 @@ const Islands = {
                 const newIsland = new Island({
                     area: data.area,
                     name: data.name,
-                    user: user._id
+                    addedBy: user._id
                 });
                 await newIsland.save();
                 return h.redirect('/list');

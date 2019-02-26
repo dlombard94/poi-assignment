@@ -2,6 +2,7 @@
 
 const Mongoose = require('mongoose');
 const Schema = Mongoose.Schema;
+const Boom = require('boom');
 
 const userSchema = new Schema({
     firstName: String,
