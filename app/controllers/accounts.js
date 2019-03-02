@@ -1,5 +1,7 @@
 'use strict';
 const User = require('../models/user');
+const Admin = require('../models/admin');
+
 const Joi = require('joi');
 
 const Accounts = {
@@ -91,13 +93,23 @@ const Accounts = {
             const { email, password } = request.payload;
             try {
                 let user = await User.findByEmail(email);
-                if (!user) {
+                console.log(user)
+                let admin = await Admin.findByEmail(email);
+                console.log(admin);
+                if (!user && !admin) {
                     const message = 'Email address is not registered';
                     throw new Boom(message);
                 }
-                user.comparePassword(password);
-                request.cookieAuth.set({ id: user.id });
-                return h.redirect('/home');
+                if(user){
+                    user.comparePassword(password);
+                    request.cookieAuth.set({ id: user.id });
+                    return h.redirect('/home');
+
+                } else if (admin){
+                    admin.comparePassword(password);
+                    request.cookieAuth.set({ id: admin.id });
+                    return h.view('admindashboard', { title: 'Admin Dashboard' });
+                }
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
             }

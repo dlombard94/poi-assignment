@@ -14,6 +14,15 @@
       "password": "secret"
     }
   },
+  "admins": {
+    "_model": "Admin",
+    "admin1": {
+      "firstName": "admin1",
+      "lastName": "admin1",
+      "email": "admin@admin.com",
+      "password": "admin"
+    }
+  },
   "islands": {
     "_model": "Island",
     "one": {
