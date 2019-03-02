@@ -12,6 +12,8 @@ module.exports = [
     { method: 'GET', path: '/settings', config: Accounts.showSettings },
     { method: 'POST', path: '/settings', config: Accounts.updateSettings },
     { method: 'POST', path: '/addisland', config: Islands.addIsland },
+    { method: 'GET', path: '/deleteaccount', config: Accounts.deleteAccount },
+
     { method: 'POST', path: '/categorize', config: Islands.categorizeIslands },
     { method: 'GET', path: '/islandlist/deleteisland/{islandid}', config: Islands.deleteIsland },
     { method: 'GET', path: '/islandlist/showisland/{islandid}', config: Islands.showIsland },
