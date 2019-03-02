@@ -1,6 +1,8 @@
 'use strict';
 const Island = require('../models/island');
 const User = require('../models/user');
+const Joi = require('joi');
+
 
 const Islands = {
     home: {
@@ -123,23 +125,24 @@ const Islands = {
                 var correctIslandId = islandId.slice(0, -1);
                 console.log(correctIslandId);
 
-
-
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const islands = await Island.find().populate('addedBy');
 
-                // get index of object with id
+                // get index of object with islandid passed in through route
                 var removeIndex = islands.map(function(item) { return item.id; }).indexOf(correctIslandId);
                 console.log(removeIndex);
 
-                islands.splice(removeIndex,1)
-                console.log(islands)
+                //getting rid of the island that is to be deleted form array
+                // islands.splice(removeIndex,1)
+                // console.log(islands)
+                const requiredIsland = islands[removeIndex];
+                console.log(requiredIsland)
 
-                // remove object
-               // apps.splice(removeIndex, 1);
+                await requiredIsland.remove();
 
-                return h.view('list', { title: 'Islands List', islands: islands });
+                return h.redirect('/list');
+                //return h.view('list', { title: 'Islands List', islands: islands });
             } catch (err) {
                 return h.view('list', { errors: [{ message: err.message }] });
             }
@@ -171,45 +174,56 @@ const Islands = {
             }
         }
     },
-    // updateIsland: {
-    //     validate: {
-    //         payload: {
-    //             firstName: Joi.string().required(),
-    //             lastName: Joi.string().required(),
-    //             email: Joi.string()
-    //                 .email()
-    //                 .required(),
-    //             password: Joi.string().required()
-    //         },
-    //         options: {
-    //             abortEarly: false
-    //         },
-    //         failAction: function(request, h, error) {
-    //             return h
-    //                 .view('settings', {
-    //                     title: 'Sign up error',
-    //                     errors: error.details
-    //                 })
-    //                 .takeover()
-    //                 .code(400);
-    //         }
-    //     },
-    //     handler: async function(request, h) {
-    //         try {
-    //             const userEdit = request.payload;
-    //             const id = request.auth.credentials.id;
-    //             const user = await User.findById(id);
-    //             user.firstName = userEdit.firstName;
-    //             user.lastName = userEdit.lastName;
-    //             user.email = userEdit.email;
-    //             user.password = userEdit.password;
-    //             await user.save();
-    //             return h.redirect('/settings');
-    //         } catch (err) {
-    //             return h.view('main', { errors: [{ message: err.message }] });
-    //         }
-    //     }
-    // }
+    updateIsland: {
+        // validate: {
+        //     payload: {
+        //         name: Joi.string().required(),
+        //         area: Joi.number().required(),
+        //     },
+        //     options: {
+        //         abortEarly: false
+        //     },
+        //     failAction: function(request, h, error) {
+        //         return h
+        //             .view('islandsettings', {
+        //                 title: 'Update error',
+        //                 errors: error.details
+        //             })
+        //             .takeover()
+        //             .code(400);
+        //     }
+        // },
+        handler: async function(request, h) {
+            try {
+                const userEdit = request.payload;
+                console.log(userEdit)
+                console.log(request.params.islandid);
+
+                const islandId = request.params.islandid ;
+                console.log(islandId);
+                //dont have to get rid of " because that's done in the showisland method
+
+                const id = request.auth.credentials.id;
+                const user = await User.findById(id);
+                const islands = await Island.find().populate('addedBy');
+                var requiredIndex = islands.map(function(item) { return item.id; }).indexOf(islandId);
+                console.log(requiredIndex);
+
+                const requiredIsland = islands[requiredIndex];
+
+                requiredIsland.name = userEdit.name;
+                requiredIsland.area = userEdit.area;
+                requiredIsland.description = userEdit.description;
+                requiredIsland.category = userEdit.category;
+                await requiredIsland.save();
+
+                console.log(requiredIsland)
+                return h.view('list', { title: 'Islands List', islands: islands });
+            } catch (err) {
+                return h.view('main', { errors: [{ message: err.message }] });
+            }
+        }
+    }
 };
 
 module.exports = Islands;

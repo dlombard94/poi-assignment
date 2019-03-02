@@ -15,6 +15,7 @@ module.exports = [
     { method: 'POST', path: '/categorize', config: Islands.categorizeIslands },
     { method: 'GET', path: '/islandlist/deleteisland/{islandid}', config: Islands.deleteIsland },
     { method: 'GET', path: '/islandlist/showisland/{islandid}', config: Islands.showIsland },
+    { method: 'POST', path: '/updateisland/{islandid}', config: Islands.updateIsland },
 
 
 
