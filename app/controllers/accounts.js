@@ -1,5 +1,6 @@
 'use strict';
 const User = require('../models/user');
+const Island = require('../models/island');
 const Admin = require('../models/admin');
 
 const Joi = require('joi');
@@ -93,9 +94,7 @@ const Accounts = {
             const { email, password } = request.payload;
             try {
                 let user = await User.findByEmail(email);
-                console.log(user)
                 let admin = await Admin.findByEmail(email);
-                console.log(admin);
                 if (!user && !admin) {
                     const message = 'Email address is not registered';
                     throw new Boom(message);
@@ -108,7 +107,11 @@ const Accounts = {
                 } else if (admin){
                     admin.comparePassword(password);
                     request.cookieAuth.set({ id: admin.id });
-                    return h.view('admindashboard', { title: 'Admin Dashboard' });
+                    const islands = await Island.find().populate('addedBy');
+                    const users = await User.find();
+                    console.log(islands);
+                    console.log(users);
+                    return h.view('admindashboard', {islands : islands, users: users});
                 }
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
@@ -129,6 +132,23 @@ const Accounts = {
                 const user = await User.findById(id);
                 await user.remove();
                 return h.redirect('/login');
+            } catch (err) {
+                return h.view('login', { errors: [{ message: err.message }] });
+            }
+        }
+    },
+    adminDeleteAccount: {
+        handler: async function(request, h) {
+            try {
+                const userId = request.params.userid ;
+                var correctUserId = userId.slice(0, -1);
+
+                const user = await User.findById(correctUserId);
+                await user.remove();
+                const users = await User.find();
+                const islands = await Island.find().populate('addedBy');
+
+                return h.view('admindashboard', {users : users, islands : islands });
             } catch (err) {
                 return h.view('login', { errors: [{ message: err.message }] });
             }

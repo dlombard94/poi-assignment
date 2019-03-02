@@ -13,6 +13,8 @@ module.exports = [
     { method: 'POST', path: '/settings', config: Accounts.updateSettings },
     { method: 'POST', path: '/addisland', config: Islands.addIsland },
     { method: 'GET', path: '/deleteaccount', config: Accounts.deleteAccount },
+    { method: 'GET', path: '/deleteuser/{userid}', config: Accounts.adminDeleteAccount },
+
 
     { method: 'POST', path: '/categorize', config: Islands.categorizeIslands },
     { method: 'GET', path: '/islandlist/deleteisland/{islandid}', config: Islands.deleteIsland },
