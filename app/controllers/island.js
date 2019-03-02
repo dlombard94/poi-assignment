@@ -145,19 +145,32 @@ const Islands = {
             }
         }
     },
-    // showIsland: {
-    //     handler: async function(request, h) {
-    //         try {
-    //             const id = request.auth.credentials.id;
-    //             const user = await User.findById(id);
-    //             const islands = await Island.find().populate('addedBy');
-    //
-    //             return h.view('islandSettings', { title: 'Update Island', user: user });
-    //         } catch (err) {
-    //             return h.view('list', { errors: [{ message: err.message }] });
-    //         }
-    //     }
-    // },
+    showIsland: {
+        handler: async function(request, h) {
+            try {
+                console.log(request.params.islandid);
+
+                const islandId = request.params.islandid ;
+                console.log(islandId);
+
+                var correctIslandId = islandId.slice(0, -1);
+                console.log(correctIslandId);
+
+                const id = request.auth.credentials.id;
+                const user = await User.findById(id);
+                const islands = await Island.find().populate('addedBy');
+                var requiredIndex = islands.map(function(item) { return item.id; }).indexOf(correctIslandId);
+                console.log(requiredIndex);
+
+                const requiredIsland = islands[requiredIndex];
+                console.log(requiredIsland)
+
+                return h.view('islandsettings', { title: 'Update Island', island: requiredIsland });
+            } catch (err) {
+                return h.view('list', { errors: [{ message: err.message }] });
+            }
+        }
+    },
     // updateIsland: {
     //     validate: {
     //         payload: {
