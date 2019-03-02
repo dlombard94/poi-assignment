@@ -11,7 +11,12 @@ module.exports = [
     { method: 'POST', path: '/login', config: Accounts.login },
     { method: 'GET', path: '/settings', config: Accounts.showSettings },
     { method: 'POST', path: '/settings', config: Accounts.updateSettings },
-    { method: 'POST', path: '/addIsland', config: Islands.addIsland },
+    { method: 'POST', path: '/addisland', config: Islands.addIsland },
+    { method: 'POST', path: '/categorize', config: Islands.categorizeIslands },
+    { method: 'GET', path: '/islandlist/deleteisland/{islandid}', config: Islands.deleteIsland },
+
+
+
     { method: 'GET', path: '/list', config: Islands.list },
     { method: 'GET', path: '/home', config: Islands.home },
     {

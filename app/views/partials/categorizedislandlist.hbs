@@ -13,16 +13,16 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#each islands}}
+                {{#each categorizedIslands}}
                     <tr>
-                        <td> {{name}} </td>
+                        <td> {{categorizedIslands.name}} </td>
                         <td> {{area}} </td>
                         <td> {{category}} </td>
                         <td> {{description}} </td>
                         <td> {{addedBy.firstName}} {{addedBy.lastName}} </td>
                         <td>
                             <a href=/islandlist/deleteisland/{{id}}" class="ui red icon button">
-                            <i class="icon trash"></i>
+                                <i class="icon trash"></i>
                             </a>
                         </td>
                     </tr>
