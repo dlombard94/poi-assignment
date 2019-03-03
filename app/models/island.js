@@ -11,7 +11,8 @@ const islandSchema = new Schema({
     addedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }
+    },
+    pictures: [],
 });
 
 

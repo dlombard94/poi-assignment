@@ -13,6 +13,8 @@ async function seed() {
     const Island = require('./island');
     const User = require('./user');
     const Admin = require('./admin');
+    const Picture = require('./picture');
+
     const dbData = await seeder.seed(data, { dropDatabase: false, dropCollections: true });
     console.log(dbData);
 }

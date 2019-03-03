@@ -1,6 +1,8 @@
 'use strict';
 const Island = require('../models/island');
 const User = require('../models/user');
+const Picture = require('../models/picture');
+
 const Joi = require('joi');
 
 
@@ -12,10 +14,23 @@ const Islands = {
     },
     list: {
         handler: async function(request, h) {
-            const islands = await Island.find().populate('addedBy')
+            const islands = await Island.find().populate('addedBy');
+            const pics = await Picture.find().populate('island');
+
+            for (var i=0; i < islands.length; i++) {
+                for (var j=0; j < pics.length; j++) {
+                    console.log(islands[i]._id);
+                    console.log(pics[j].island._id);
+                    if(islands[i]._id.equals(pics[j].island._id)){
+                        islands[i].pictures.push(pics[j]);
+                        await islands[i].save();
+                    }
+                }
+            }
+            console.log(islands[0].pictures)
             return h.view('list', {
                 title: 'List of Islands',
-                islands: islands
+                islands: islands,
             });
         }
     },

@@ -1,5 +1,7 @@
 const Islands = require('./app/controllers/island');
 const Accounts = require('./app/controllers/accounts');
+const Pictures = require('./app/controllers/picture');
+
 
 
 module.exports = [
@@ -21,6 +23,8 @@ module.exports = [
     { method: 'GET', path: '/islandlist/showisland/{islandid}', config: Islands.showIsland },
     { method: 'POST', path: '/updateisland/{islandid}', config: Islands.updateIsland },
 
+    { method: 'POST', path: '/uploadpicture/{islandid}', config: Pictures.uploadPicture },
+    { method: 'GET', path: '/deletepicture/{imgid}', config: Pictures.deletePicture },
 
 
     { method: 'GET', path: '/list', config: Islands.list },
