@@ -8,13 +8,16 @@ const islandSchema = new Schema({
     area: Number,
     category: String,
     description: String,
+    location: {
+      longitude: Number,
+      latitude: Number,
+    },
     addedBy: {
         type: Schema.Types.ObjectId,
         ref: 'User'
     },
     pictures: [],
 });
-
 
 
 module.exports = Mongoose.model('Island', islandSchema);

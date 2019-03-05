@@ -1,34 +1,59 @@
-<section class="ui raised segment">
-    <div class="ui grid">
-        <article>
-            <table class="ui celled table segment">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Area (m2)</th>
-                    <th>Location</th>
-                    <th>Description</th>
-                    <th>Added By</th>
-                    <th></th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each categorizedIslands}}
-                    <tr>
-                        <td> {{name}} </td>
-                        <td> {{area}} </td>
-                        <td> {{category}} </td>
-                        <td> {{description}} </td>
-                        <td> {{addedBy.firstName}} {{addedBy.lastName}} </td>
-                        <td>
-                            <a href=/islandlist/deleteisland/{{id}}" class="ui red icon button">
-                                <i class="icon trash"></i>
+{{#each categorizedIslands}}
+    <div class="ui segment">
+        <div class="ui two column very relaxed grid">
+            <div class="column">
+                <h3 class="ui block header">
+                    {{name}}
+                </h3>
+                <div class="ui horizontal segments">
+                    <div class="ui segment">
+                        <p><b>Area (m2): </b>{{area}}</p>
+                    </div>
+                    <div class="ui segment">
+                        <p><b>Location: </b>{{category}}</p>
+                    </div>
+                    <div class="ui segment">
+                        <p><b>Added By: </b>{{addedBy.firstName}} {{addedBy.lastName}}</p>
+                    </div>
+                </div>
+                <div class="ui segment">
+                    <p><b>Description: </b>{{description}}</p>
+                </div>
+                <div class="ui horizontal segments">
+                    <div class="ui center aligned segment">
+                        <a href=/islandlist/deleteisland/{{id}}" class="ui red icon button">
+                            <i class="large icon trash"></i>
+                        </a>
+                    </div>
+                    <div class="ui center aligned segment">
+                        <a href=/islandlist/showisland/{{id}}" class="ui green icon button">
+                            <i class="icon large info circle"></i>
+                        </a>
+                    </div>
+                    <div class="ui center aligned segment">
+                        {{> uploadpicture}}
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                {{#each pictures}}
+
+                    <div class="ui attached segment">
+                        <a  class="ui medium image" href={{img}} >
+                            <img src={{img}}>
+                        </a>
+                        <button class="ui centre aligned button">
+                            <a  href="/deletepicture/{{island.id}}/{{id}}" class="ui compact icon fluid button">
+                                <i class="centre aligned red trash icon"></i>
                             </a>
-                        </td>
-                    </tr>
+                        </button>
+                    </div>
+
                 {{/each}}
-                </tbody>
-            </table>
-        </article>
+            </div>
+        </div>
+        <div class="ui vertical divider">
+
+        </div>
     </div>
-</section>
+{{/each}}

@@ -16,6 +16,17 @@
                     <p><b>Added By: </b>{{addedBy.firstName}} {{addedBy.lastName}}</p>
                 </div>
             </div>
+            <div class="ui horizontal segments">
+                <div class="ui segment">
+                    <p><b>Longitude: </b>{{location.longitude}}</p>
+                </div>
+                <div class="ui segment">
+                    <p><b>Latitude: </b>{{location.latitude}}</p>
+                </div>
+                <div class="ui segment">
+                    <p><b>Link to Map: </b><a href="https://www.latlong.net/c/?lat={{location.latitude}}&long={{location.longitude}}" target="_blank">Click Here</a></p>
+                </div>
+            </div>
             <div class="ui segment">
                 <p><b>Description: </b>{{description}}</p>
             </div>
@@ -36,18 +47,33 @@
             </div>
         </div>
         <div class="column">
-            {{#each pictures}}
-            <img class="ui small image" src={{img}}>
-                <div class="ui center aligned segment">
-                    <a href=/deletepicture/{{img}}" class="ui red icon button">
-                        <i class="large icon trash"></i>
-                    </a>
-                </div>
-            {{/each}}
-        </div>
+
+                {{#each pictures}}
+
+                    <div class="ui animated button" tabindex="0">
+                        <div class="visible content">
+                            <a  class="ui medium centered fluid image" href={{img}} >
+                                <img src={{img}}>
+                            </a>
+                        </div>
+                        <div class="hidden content">
+                            <a  href="/deletepicture/{{island.id}}/{{id}}" class="ui red icon button">
+                                <i class="centre aligned trash icon"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                {{/each}}
+
+            </div>
+
     </div>
     <div class="ui vertical divider">
-
+        <b>Pics --></b>
     </div>
 </div>
 {{/each}}
+
+
+
+

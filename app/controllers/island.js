@@ -18,16 +18,16 @@ const Islands = {
             const pics = await Picture.find().populate('island');
 
             for (var i=0; i < islands.length; i++) {
+                //have to wipe the pics to avoid doubling up after deleting another pic
+                islands[i].pictures.length = 0;
                 for (var j=0; j < pics.length; j++) {
-                    console.log(islands[i]._id);
-                    console.log(pics[j].island._id);
                     if(islands[i]._id.equals(pics[j].island._id)){
                         islands[i].pictures.push(pics[j]);
                         await islands[i].save();
                     }
                 }
             }
-            console.log(islands[0].pictures)
+
             return h.view('list', {
                 title: 'List of Islands',
                 islands: islands,
@@ -44,6 +44,10 @@ const Islands = {
                     name: data.name,
                     area: data.area,
                     description: data.description,
+                    location:{
+                        latitude: data.latitude,
+                        longitude: data.longitude
+                    },
                     category: data.category,
                     addedBy: user._id
                 });
@@ -58,19 +62,13 @@ const Islands = {
         handler: async function(request, h) {
             try{
                 const id = request.auth.credentials.id;
-                console.log(id);
+
                 const user = await User.findById(id);
-                console.log(user);
 
                 const data = request.payload;
-                console.log(data.choice);
 
                 const islands = await Island.find().populate('addedBy');
-                console.log(islands);
-                console.log(islands[0].category);
-                console.log(islands[1].category);
-                console.log(islands[2].category);
-                console.log(islands[3].category);
+
 
                 const categorizedIslands = [];
 
@@ -189,6 +187,53 @@ const Islands = {
             }
         }
     },
+    deletePicture: {
+        handler: async function(request, h) {
+            try {
+                const pics = await Picture.find().populate('island');
+                const islands = await Island.find().populate('addedBy');
+                const picId = request.params.pictureid;
+                const islandId = request.params.islandid;
+                console.log("picId: " + picId);
+                console.log("IslandId: " + islandId);
+
+                // get index of object with pictureid passed in through route
+                var removeIndex = pics.map(function(item) { return item.id; }).indexOf(picId);
+                console.log("Index to be remove: " + removeIndex);
+
+                //getting rid of the picture that is to be deleted from pictures array
+                const requiredPicture = pics[removeIndex];
+                console.log("Required Pic: " + requiredPicture);
+
+                const island = await Island.findById(islandId);
+                console.log("Pic Belongs to: " + island);
+
+                console.log(island.pictures.length);
+
+                if(island.pictures.length != 0){
+                    for (var i = 0; i < island.pictures.length; i++){
+                        if(island.pictures[i]._id.equals(picId)){
+                            console.log("winner: ");
+                            island.pictures.splice(i,1);
+                            console.log(island);
+                        }
+                    }
+                }
+
+                console.log("island again: " + island);
+                await island.save();
+
+                await requiredPicture.remove();
+                await island.save();
+                console.log(islands);
+                console.log(pics);
+                //await cloudinary.v2.uploader.destroy("island2", {});
+                return h.redirect('/list');
+            } catch (err) {
+                return h.view('list', { errors: [{ message: err.message }] });
+            }
+        }
+    },
     updateIsland: {
         // validate: {
         //     payload: {
@@ -230,6 +275,8 @@ const Islands = {
                 requiredIsland.area = userEdit.area;
                 requiredIsland.description = userEdit.description;
                 requiredIsland.category = userEdit.category;
+                requiredIsland.location.latitude = userEdit.latitude;
+                requiredIsland.location.longitude = userEdit.longitude;
                 await requiredIsland.save();
 
                 console.log(requiredIsland)

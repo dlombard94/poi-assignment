@@ -24,7 +24,7 @@ module.exports = [
     { method: 'POST', path: '/updateisland/{islandid}', config: Islands.updateIsland },
 
     { method: 'POST', path: '/uploadpicture/{islandid}', config: Pictures.uploadPicture },
-    { method: 'GET', path: '/deletepicture/{imgid}', config: Pictures.deletePicture },
+    { method: 'GET', path: '/deletepicture/{islandid}/{pictureid}', config: Pictures.deletePicture },
 
 
     { method: 'GET', path: '/list', config: Islands.list },
