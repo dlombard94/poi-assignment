@@ -32,7 +32,7 @@ const Pictures = {
                 if(err){
 
                 }
-                const result = cloudinary.uploader.upload('./upload/temp.img', result => {
+                const result = cloudinary.uploader.upload('./upload/temp.img',result => {
                     console.log(result);
                     const newPicture = new Picture({
                         img: result.url,

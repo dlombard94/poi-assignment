@@ -1,5 +1,7 @@
 {{#each islands}}
-<div class="ui segment">
+    <div class="ui segment">
+
+        <div class="ui segment">
     <div class="ui two column very relaxed grid">
         <div class="column">
             <h3 class="ui block header">
@@ -23,9 +25,7 @@
                 <div class="ui segment">
                     <p><b>Latitude: </b>{{location.latitude}}</p>
                 </div>
-                <div class="ui segment">
-                    <p><b>Link to Map: </b><a href="https://www.latlong.net/c/?lat={{location.latitude}}&long={{location.longitude}}" target="_blank">Click Here</a></p>
-                </div>
+
             </div>
             <div class="ui segment">
                 <p><b>Description: </b>{{description}}</p>
@@ -49,11 +49,10 @@
         <div class="column">
 
                 {{#each pictures}}
-
                     <div class="ui animated button" tabindex="0">
                         <div class="visible content">
-                            <a  class="ui medium centered fluid image" href={{img}} >
-                                <img src={{img}}>
+                            <a  class="ui centered image" href={{img}} >
+                                <img src={{img}} >
                             </a>
                         </div>
                         <div class="hidden content">
@@ -62,16 +61,34 @@
                             </a>
                         </div>
                     </div>
-
                 {{/each}}
 
-            </div>
+
+        </div>
 
     </div>
-    <div class="ui vertical divider">
-        <b>Pics --></b>
-    </div>
+
+
+
+
 </div>
+        <div class="ui horizontal segments">
+            <iframe
+                    width="100%"
+                    height="400px"
+                    frameborder="yes"
+                    scrolling="yes"
+                    marginheight="0"
+                    marginwidth="0"
+                    src="https://maps.google.com/maps?q={{location.longitude}},{{location.latitude}}&hl=es;z=14&amp;output=embed"
+            >
+            </iframe>
+            <br />
+
+
+        </div>
+    </div>
+
 {{/each}}
 
 
