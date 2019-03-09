@@ -14,13 +14,13 @@ The app was deployed via heroku and can be found at the following:
 
 App Summary
 
--preloads a list of islands arounf Ireland
+-preloads a list of islands around Ireland
 - user/admin can login/register
-  -can add new islands
-  -can filter islands on location
-  -can update island info
-  -can delete pics
-  -can delete user account
+- can add new islands
+- can filter islands on location
+- can update island info
+- can delete pics
+- can delete user account
 
 
 
