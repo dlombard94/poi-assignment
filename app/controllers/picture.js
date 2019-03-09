@@ -29,7 +29,7 @@ const Pictures = {
             //using cloudinary to upload image to temp folder and then onto cloudinary
             const response = fs.writeFile('./upload/temp.img', request.payload.file, err => {
                 if(err){
-
+                    console.log("ERROR");
                 }
                 const result = cloudinary.uploader.upload('./upload/temp.img',result => {
                     console.log(result);
