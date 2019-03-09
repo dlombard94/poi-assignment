@@ -20,6 +20,7 @@ const Accounts = {
     },
     signup: {
         auth: false,
+        //setting validation rules for the entered parameters
         validate: {
             payload: {
                 firstName: Joi.string().required(),
@@ -43,19 +44,27 @@ const Accounts = {
         handler: async function(request, h) {
             try {
                 const payload = request.payload;
+
+                //checks if email address is already in use - displays boom message if so
                 let user = await User.findByEmail(payload.email);
                 if (user) {
                     const message = 'Email address is already registered';
                     throw new Boom(message);
                 }
+
+                //creates new user based on the info passed in from the registration form
                 const newUser = new User({
                     firstName: payload.firstName,
                     lastName: payload.lastName,
                     email: payload.email,
                     password: payload.password
                 });
+
+                //saves the new user and generstes cookie
                 user = await newUser.save();
                 request.cookieAuth.set({ id: user.id });
+
+                //redirect new user to the home page
                 return h.redirect('/home');
             } catch (err) {
                 return h.view('signup', { errors: [{ message: err.message }] });
@@ -93,12 +102,18 @@ const Accounts = {
         handler: async function(request, h) {
             const { email, password } = request.payload;
             try {
+                //seeeing if there is a normal user or admin with the entered email
                 let user = await User.findByEmail(email);
                 let admin = await Admin.findByEmail(email);
+
+                //if no match throw boom message saying so
                 if (!user && !admin) {
                     const message = 'Email address is not registered';
                     throw new Boom(message);
                 }
+
+                //if user email and password is correct - creates cookie and redirects to home page
+                //else if admin and password is correct - creates cooke and redirects to admin dashboard and passes info
                 if(user){
                     user.comparePassword(password);
                     request.cookieAuth.set({ id: user.id });
@@ -138,13 +153,18 @@ const Accounts = {
         }
     },
     adminDeleteAccount: {
+        //method to allow administor to delete any user account
         handler: async function(request, h) {
             try {
+                //getting rid of trailing "'in userId passed in through route
                 const userId = request.params.userid ;
                 var correctUserId = userId.slice(0, -1);
 
+                //finds user with id and removes
                 const user = await User.findById(correctUserId);
                 await user.remove();
+
+                //redefining parameters to be passed to admindashboard
                 const users = await User.find();
                 const islands = await Island.find().populate('addedBy');
 
@@ -190,6 +210,7 @@ const Accounts = {
         },
         handler: async function(request, h) {
             try {
+                //setting user credentials to whatever was passed through settings form
                 const userEdit = request.payload;
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);

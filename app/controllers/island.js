@@ -14,13 +14,16 @@ const Islands = {
     },
     list: {
         handler: async function(request, h) {
+            //defining all islands and pictures
             const islands = await Island.find().populate('addedBy');
             const pics = await Picture.find().populate('island');
 
+            //nested for loop to assign correct pics to correct islands
             for (var i=0; i < islands.length; i++) {
                 //have to wipe the pics to avoid doubling up after deleting another pic
                 islands[i].pictures.length = 0;
                 for (var j=0; j < pics.length; j++) {
+                    //if referenced island id for pic matches current island id - add pic to current island
                     if(islands[i]._id.equals(pics[j].island._id)){
                         islands[i].pictures.push(pics[j]);
                         await islands[i].save();
@@ -37,6 +40,7 @@ const Islands = {
     addIsland: {
         handler: async function(request, h) {
             try{
+                //adding island via addIsland form
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const data = request.payload;
@@ -62,16 +66,18 @@ const Islands = {
         handler: async function(request, h) {
             try{
                 const id = request.auth.credentials.id;
-
                 const user = await User.findById(id);
-
+                //date = category selection via form
                 const data = request.payload;
-
                 const islands = await Island.find().populate('addedBy');
 
-
+                //define empty array to store categorized islands
                 const categorizedIslands = [];
 
+
+                //checks what the cateogry selection is
+                //loops through all islands and if category matche it adds island to categorizedIsland array
+                //returns list view with the categorized islands passed
                 if (data.choice === "south"){
 
                     const southIslands = [];
@@ -132,11 +138,9 @@ const Islands = {
             try {
                 console.log(request.params.islandid);
 
+                //getting rid of trailing "" on id
                 const islandId = request.params.islandid ;
-                console.log(islandId);
-
                 var correctIslandId = islandId.slice(0, -1);
-                console.log(correctIslandId);
 
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
@@ -144,14 +148,9 @@ const Islands = {
 
                 // get index of object with islandid passed in through route
                 var removeIndex = islands.map(function(item) { return item.id; }).indexOf(correctIslandId);
-                console.log(removeIndex);
 
-                //getting rid of the island that is to be deleted form array
-                // islands.splice(removeIndex,1)
-                // console.log(islands)
+                //getting rid of the island at the index that is to be deleted from array
                 const requiredIsland = islands[removeIndex];
-                console.log(requiredIsland)
-
                 await requiredIsland.remove();
 
                 return h.redirect('/list');
@@ -166,20 +165,18 @@ const Islands = {
             try {
                 console.log(request.params.islandid);
 
+                //getting rid of trailing "" on id
                 const islandId = request.params.islandid ;
-                console.log(islandId);
-
                 var correctIslandId = islandId.slice(0, -1);
-                console.log(correctIslandId);
 
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const islands = await Island.find().populate('addedBy');
-                var requiredIndex = islands.map(function(item) { return item.id; }).indexOf(correctIslandId);
-                console.log(requiredIndex);
 
+                // get index of object with islandid passed in through route
+                // then getting island at this index
+                var requiredIndex = islands.map(function(item) { return item.id; }).indexOf(correctIslandId);
                 const requiredIsland = islands[requiredIndex];
-                console.log(requiredIsland)
 
                 return h.view('islandsettings', { title: 'Update Island', island: requiredIsland });
             } catch (err) {
@@ -194,40 +191,28 @@ const Islands = {
                 const islands = await Island.find().populate('addedBy');
                 const picId = request.params.pictureid;
                 const islandId = request.params.islandid;
-                console.log("picId: " + picId);
-                console.log("IslandId: " + islandId);
 
                 // get index of object with pictureid passed in through route
                 var removeIndex = pics.map(function(item) { return item.id; }).indexOf(picId);
-                console.log("Index to be remove: " + removeIndex);
 
-                //getting rid of the picture that is to be deleted from pictures array
+                //getting rid of the picture that is to be deleted from pictures array at that index
                 const requiredPicture = pics[removeIndex];
-                console.log("Required Pic: " + requiredPicture);
 
                 const island = await Island.findById(islandId);
-                console.log("Pic Belongs to: " + island);
 
-                console.log(island.pictures.length);
 
+                //loops through the specific pics for each island and removes pic if id matches
                 if(island.pictures.length != 0){
                     for (var i = 0; i < island.pictures.length; i++){
                         if(island.pictures[i]._id.equals(picId)){
-                            console.log("winner: ");
                             island.pictures.splice(i,1);
-                            console.log(island);
                         }
                     }
                 }
 
-                console.log("island again: " + island);
                 await island.save();
-
                 await requiredPicture.remove();
                 await island.save();
-                console.log(islands);
-                console.log(pics);
-                //await cloudinary.v2.uploader.destroy("island2", {});
                 return h.redirect('/list');
             } catch (err) {
                 return h.view('list', { errors: [{ message: err.message }] });
@@ -235,10 +220,19 @@ const Islands = {
         }
     },
     updateIsland: {
+        //validation nnot working for some reason*******************************
         // validate: {
         //     payload: {
         //         name: Joi.string().required(),
         //         area: Joi.number().required(),
+        //         location:{
+        //             latitude: Joi.number().required(),
+        //             longitude: Joi.number().required(),
+        //
+        //         },
+        //         description: Joi.string().required(),
+        //         category: Joi.string().required(),
+        //         addedBy: Joi.string().required(),
         //     },
         //     options: {
         //         abortEarly: false
@@ -256,21 +250,21 @@ const Islands = {
         handler: async function(request, h) {
             try {
                 const userEdit = request.payload;
-                console.log(userEdit)
-                console.log(request.params.islandid);
 
-                const islandId = request.params.islandid ;
-                console.log(islandId);
                 //dont have to get rid of " because that's done in the showisland method
+                const islandId = request.params.islandid ;
+
 
                 const id = request.auth.credentials.id;
                 const user = await User.findById(id);
                 const islands = await Island.find().populate('addedBy');
-                var requiredIndex = islands.map(function(item) { return item.id; }).indexOf(islandId);
-                console.log(requiredIndex);
 
+                //finding index with islandid passed in through route
+                //then finds island at this index
+                var requiredIndex = islands.map(function(item) { return item.id; }).indexOf(islandId);
                 const requiredIsland = islands[requiredIndex];
 
+                //updates all selected islands parameters with values passed in through form
                 requiredIsland.name = userEdit.name;
                 requiredIsland.area = userEdit.area;
                 requiredIsland.description = userEdit.description;
@@ -279,7 +273,6 @@ const Islands = {
                 requiredIsland.location.longitude = userEdit.longitude;
                 await requiredIsland.save();
 
-                console.log(requiredIsland)
                 return h.view('list', { title: 'Islands List', islands: islands });
             } catch (err) {
                 return h.view('main', { errors: [{ message: err.message }] });
