@@ -6,8 +6,7 @@ require('dotenv').config();
 const Hapi = require('hapi');
 
 const server = Hapi.server({
-    port: 3000,
-    host: 'localhost'
+    port: process.env.PORT || 3000,
 });
 
 // server.bind({
