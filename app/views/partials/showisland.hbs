@@ -1,3 +1,5 @@
+<!--FORM TO UPDATE SPECIFIC ISLAND VALUES-->
+
 <form class="ui stacked segment form" action="/updateisland/{{island.id}}" method="POST">
     <div class="three fields">
         <div class="field">
@@ -51,21 +53,3 @@
     </div>
 </form>
 
-<div id="map" class="maps"></div>
-<script>
-
-    // Initialize and add the map
-    function initMap() {
-        // The location of Uluru
-        var uluru = {lat: {{island.latitude}}, lng: {{island.longitude}};
-        // The map, centered at Uluru
-        var map = new google.maps.Map(
-                document.getElementById('map'), {zoom: 4, center: uluru});
-        // The marker, positioned at Uluru
-        var marker = new google.maps.Marker({position: uluru, map: map});
-    }
-
-</script>
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_IBbokdENsrIu4QiwfYDXPJDupQ3bzXo&callback=initMap">
-</script>
