@@ -13,8 +13,9 @@ The app was deployed via heroku and can be found at the following:
 - https://whispering-thicket-82912.herokuapp.com/
 
 App Summary
+-----------
 
--preloads a list of islands around Ireland
+- preloads a list of islands around Ireland
 - user/admin can login/register
 - can add new islands
 - can filter islands on location
