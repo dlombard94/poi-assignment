@@ -102,29 +102,29 @@ suite('Island API tests', function () {
     });
 
     test('delete an island', async function () {
-        let c = await poiService.createIsland(newIsland);
-        assert(c._id != null);
-        await poiService.deleteOneIsland(c._id);
-        c = await poiService.getIsland(c._id);
-        assert(c == null);
+        let i = await poiService.createIsland(newIsland);
+        assert(i._id != null);
+        await poiService.deleteOneIsland(i._id);
+        i = await poiService.getIsland(i._id);
+        assert(i == null);
     });
 
     test('get an Island', async function () {
-        const c1 = await poiService.createIsland(newIsland);
-        const c2 = await poiService.getIsland(c1._id);
-        assert.deepEqual(c1, c2);
+        const i1 = await poiService.createIsland(newIsland);
+        const i2 = await poiService.getIsland(i1._id);
+        assert.deepEqual(i1, i2);
     });
 
     test('get invalid island', async function () {
-        const c1 = await poiService.getIsland('1234');
-        assert.isNull(c1);
-        const c2 = await poiService.getIsland('012345678901234567890123');
-        assert.isNull(c2);
+        const i1 = await poiService.getIsland('1234');
+        assert.isNull(i1);
+        const i2 = await poiService.getIsland('012345678901234567890123');
+        assert.isNull(i2);
     });
 
     test('get all islands', async function () {
-        for (let c of islands) {
-            await poiService.createIsland(c);
+        for (let i of islands) {
+            await poiService.createIsland(i);
         }
         const allIslands = await poiService.getIslands();
         console.log(allIslands);
@@ -132,8 +132,8 @@ suite('Island API tests', function () {
     });
 
     test('get islands detail', async function () {
-        for (let c of islands) {
-            await poiService.createIsland(c);
+        for (let i of islands) {
+            await poiService.createIsland(i);
         }
 
         const allIslands = await poiService.getIslands();

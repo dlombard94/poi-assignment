@@ -1,5 +1,6 @@
 'use strict';
 
+
 const axios = require('axios');
 const baseUrl = 'http://dlombard:3000';
 
@@ -60,7 +61,7 @@ class PoiService {
 
     async getIsland(id) {
         try {
-            const response = await axios.get(this.baseUrl + '/api/islandss/' + id);
+            const response = await axios.get(this.baseUrl + '/api/islands/' + id);
             return response.data;
         } catch (e) {
             return null;
@@ -89,8 +90,7 @@ class PoiService {
 
     async getUser(id) {
         try {
-            const response = await axios.get(this.baseUrl + '/api/user/' + id);
-            return response.data;
+            const response = await axios.get(this.baseUrl + '/api/users/' + id);
             return response.data;
         } catch (e) {
             return null;
@@ -100,6 +100,35 @@ class PoiService {
     async createUser(newUser) {
         const response = await axios.post(this.baseUrl + '/api/users', newUser);
         return response.data;
+    }
+
+    async addPicture(id, picture) {
+        try {
+            const response = axios.post('/api/islands/' + id + '/pictures', picture);
+            return repsonse.data;
+            console.log('yes')
+        } catch (e) {
+            console.log('no')
+            return null;
+        }
+    }
+
+    async getPictures(id) {
+        try {
+            const response = await axios.get('/api/islands/' + id + '/pictures');
+            return repsonse.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async deleteAllPictures() {
+        try {
+            const response = await axios.delete('/api/pictures');
+            return repsonse.data;
+        } catch (e) {
+            return null;
+        }
     }
 }
 
