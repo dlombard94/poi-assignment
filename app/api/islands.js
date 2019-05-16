@@ -48,8 +48,8 @@ const Islands = {
     deleteOne: {
         auth: false,
         handler: async function(request, h) {
-            const island = await Island.remove({ _id: request.params.id });
-            if (island) {
+            const response = await Island.deleteOne({ _id: request.params.id });
+            if (response.deletedCount == 1) {
                 return { success: true };
             }
             return Boom.notFound('id not found');
