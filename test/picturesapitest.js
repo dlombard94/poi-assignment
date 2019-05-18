@@ -11,44 +11,67 @@ suite('Picture API tests', function() {
 
     const poiService = new PoiService('http://Dlombard:3000');
 
-    setup(async function() {
-        poiService.deleteAllIslands();
-        poiService.deleteAllPictures();
-    });
-
-    teardown(async function() {});
-
     test('create a picture', async function() {
         const returnedIsland = await poiService.createIsland(newIsland);
+        console.log(returnedIsland);
+        console.log(returnedIsland._id);
+        console.log(pictures[0]);
+
+
         await poiService.addPicture(returnedIsland._id, pictures[0]);
         const returnedPictures = await poiService.getPictures(returnedIsland._id);
+        console.log(returnedPictures);
         assert.equal(returnedPictures.length, 1);
         assert(_.some([returnedPictures[0]], pictures[0]), 'returned picture must be a superset of picture');
     });
 
-    test('create multiple pictures', async function() {
-        const returnedIsland = await poiService.createIsland(newIsland);
-        for (var i = 0; i < pictures.length; i++) {
-            await poiService.addPicture(returnedIsland._id, pictures[i]);
-        }
+    // setup(async function() {
+    //     poiService.deleteAllIslands();
+    //     poiService.deleteAllPictures();
+    // });
+    //
+    // teardown(async function() {
+    //     poiService.deleteAllIslands();
+    //     poiService.deleteAllPictures();
+    // });
 
+    test('create a picture', async function() {
+        const returnedIsland = await poiService.createIsland(newIsland);
+        console.log(returnedIsland);
+        console.log(returnedIsland._id);
+        console.log(pictures[0]);
+
+
+        await poiService.addPicture(returnedIsland._id, pictures[0]);
         const returnedPictures = await poiService.getPictures(returnedIsland._id);
-        assert.equal(returnedPictures.length, pictures.length);
-        for (var i = 0; i < pictures.length; i++) {
-            assert(_.some([returnedPictures[i]], pictures[i]), 'returned picture must be a superset of picture');
-        }
+        console.log(returnedPictures);
+        assert.equal(returnedPictures.length, 1);
+        assert(_.some([returnedPictures[0]], pictures[0]), 'returned picture must be a superset of picture');
     });
 
-    test('delete all pictures', async function() {
-        const returnedIsland = await poiService.createIsland(newIsland);
-        for (var i = 0; i < pictures.length; i++) {
-            await poiService.addPicture(returnedIsland._id, pictures[i]);
-        }
-
-        const p1 = await poiService.getPictures(returnedIsland._id);
-        assert.equal(p1.length, pictures.length);
-        await poiService.deleteAllPictures();
-        const p2 = await poiService.getPictures(returnedIsland._id);
-        assert.equal(p2.length, 0);
-    });
+    // test('create multiple pictures', async function() {
+    //     const returnedIsland = await poiService.createIsland(newIsland);
+    //     for (var i = 0; i < pictures.length; i++) {
+    //         await poiService.addPicture(returnedIsland._id, pictures[i]);
+    //     }
+    //
+    //     const returnedPictures = await poiService.getPictures(returnedIsland._id);
+    //     assert.equal(returnedPictures.length, pictures.length);
+    //     for (var i = 0; i < pictures.length; i++) {
+    //         assert(_.some([returnedPictures[i]], pictures[i]), 'returned picture must be a superset of picture');
+    //     }
+    // });
+    //
+    // test('delete all pictures', async function() {
+    //     const returnedIsland = await poiService.createIsland(newIsland);
+    //     for (var i = 0; i < pictures.length; i++) {
+    //         await poiService.addPicture(returnedIsland._id, pictures[i]);
+    //     }
+    //
+    //     const p1 = await poiService.getPictures(returnedIsland._id);
+    //     assert.equal(p1.length, pictures.length);
+    //     await poiService.deleteAllPictures();
+    //     const p2 = await poiService.getPictures(returnedIsland._id);
+    //     assert.equal(p2.length, 0);
+    // });
 });

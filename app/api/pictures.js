@@ -16,6 +16,7 @@ const Pictures = {
     findByIsland: {
         auth: false,
         handler: async function(request, h) {
+            console.log(request.params.id);
             const pictures = await Picture.find({ island: request.params.id });
             return pictures;
         }

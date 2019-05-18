@@ -77,18 +77,18 @@
   "pictures": {
     "_model": "Picture",
     "pic1": {
-      "title": "pic1",
+      "title": "pic01",
       "img": "https://res.cloudinary.com/dlombard94/image/upload/v1551603135/island3.jpg",
       "island": "->islands.one"
     },
     "pic2": {
-      "title": "pic2",
+      "title": "pic02",
       "img": "https://res.cloudinary.com/dlombard94/image/upload/v1551603135/island2.jpg",
       "island": "->islands.three"
 
     },
     "pic3": {
-      "title": "pic3",
+      "title": "pic03",
       "img": "https://res.cloudinary.com/dlombard94/image/upload/v1551603135/island1.jpg",
       "island": "->islands.two"
 

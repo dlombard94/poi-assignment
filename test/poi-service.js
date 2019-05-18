@@ -104,19 +104,24 @@ class PoiService {
 
     async addPicture(id, picture) {
         try {
-            const response = axios.post('/api/islands/' + id + '/pictures', picture);
-            return repsonse.data;
-            console.log('yes')
+            console.log(id);
+            console.log(picture);
+            const response = await axios.post(this.baseUrl +'/api/islands/' + id + '/pictures', picture);
+            console.log('working')
+            console.log(response.data);
+            return response.data;
         } catch (e) {
-            console.log('no')
+            console.log('not working')
             return null;
         }
     }
 
     async getPictures(id) {
         try {
-            const response = await axios.get('/api/islands/' + id + '/pictures');
-            return repsonse.data;
+            console.log(id);
+            const response = await axios.get(this.baseUrl +'/api/islands/' + id + '/pictures');
+            console.log(response.data);
+            return response.data;
         } catch (e) {
             return null;
         }
@@ -124,7 +129,7 @@ class PoiService {
 
     async deleteAllPictures() {
         try {
-            const response = await axios.delete('/api/pictures');
+            const response = await axios.delete(this.baseUrl +'/api/pictures');
             return repsonse.data;
         } catch (e) {
             return null;
