@@ -2,15 +2,15 @@
   "users": {
     "_model": "User",
     "homer": {
-      "firstName": "Homer",
+      "firstName": "Barney",
       "lastName": "Simpson",
-      "email": "homer@simpson.com",
+      "email": "barney@simpson.com",
       "password": "secret1"
     },
     "bart": {
-      "firstName": "Bart",
+      "firstName": "Moe",
       "lastName": "Simpson",
-      "email": "bart@simpson.com",
+      "email": "moe@simpson.com",
       "password": "secret2"
     }
   },
