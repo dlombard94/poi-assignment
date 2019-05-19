@@ -58,7 +58,7 @@ const Islands = {
                 await newIsland.save();
                 return h.redirect('/list');
             }catch (err) {
-            return h.view('main', { errors: [{ message: err.message }] });
+                return h.view('main', { errors: [{ message: err.message }] });
             }
         }
     },

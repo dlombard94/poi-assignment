@@ -1,6 +1,8 @@
 const Islands = require('./app/controllers/island');
 const Accounts = require('./app/controllers/accounts');
 const Pictures = require('./app/controllers/picture');
+const Reviews = require('./app/controllers/review');
+
 
 
 
@@ -29,6 +31,11 @@ module.exports = [
 
     { method: 'GET', path: '/list', config: Islands.list },
     { method: 'GET', path: '/home', config: Islands.home },
+
+    { method: 'GET', path: '/listreview', config: Reviews.listReview },
+    { method: 'POST', path: '/addreview', config: Reviews.addReview },
+    { method: 'GET', path: '/reviewlist/deletereview/{reviewid}', config: Reviews.deleteReview },
+
     {
         method: 'GET',
         path: '/{param*}',

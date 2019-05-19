@@ -93,5 +93,26 @@
       "island": "->islands.two"
 
     }
+  },
+  "review": {
+    "_model": "Review",
+    "rev1": {
+      "review": "Review 1 Description...",
+      "bestFor": "Average",
+      "island": "->islands.one"
+    },
+    "rev2": {
+      "review": "Review 2 Description...",
+      "bestFor": "Below Average",
+      "island": "->islands.three"
+
+    },
+    "rev3": {
+      "review": "Review 3 Description...",
+      "bestFor": "Above Average",
+      "island": "->islands.two"
+
+    }
   }
+
 }
