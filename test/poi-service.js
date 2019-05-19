@@ -144,6 +144,49 @@ class PoiService {
             return null;
         }
     }
+
+    async addReview(id, review) {
+        try {
+            console.log(id);
+            console.log(review);
+            const response = await axios.post(this.baseUrl +'/api/islands/' + id + '/reviews', review);
+            console.log('working')
+            console.log(response.data);
+            return response.data;
+        } catch (e) {
+            console.log('not working')
+            return null;
+        }
+    }
+
+    async getReviews(id) {
+        try {
+            console.log(id);
+            const response = await axios.get(this.baseUrl +'/api/islands/' + id + '/reviews');
+            console.log(response.data);
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async deleteReviews(islandId) {
+        try {
+            const response = await axios.delete(this.baseUrl + '/api/islands/' + islandId + '/reviews');
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
+    async deleteAllReviews() {
+        try {
+            const response = await axios.delete(this.baseUrl +'/api/reviews');
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
 }
 
 module.exports = PoiService;

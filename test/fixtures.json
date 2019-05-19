@@ -77,6 +77,25 @@
       "img": "test img4"
     }
   ],
+  "reviews": [
+    {
+      "review": "test review1",
+      "bestFor": "average"
+    },
+    {
+      "review": "test review2",
+      "bestFor": "average"
+    },
+    {
+      "review": "test review3",
+      "bestFor": "taverage"
+    },
+    {
+      "review": "test review4",
+      "bestFor": "average"
+    }
+  ],
+
   "newUser":
   {
     "firstName": "Maggie",

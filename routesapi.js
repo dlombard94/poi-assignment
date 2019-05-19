@@ -1,7 +1,7 @@
 const IslandsApi = require('./app/api/islands');
 const Users= require('./app/api/users');
 const Pictures = require('./app/api/pictures');
-
+const Reviews = require('./app/api/reviews');
 
 module.exports = [
     { method: 'GET', path: '/api/islands', config: IslandsApi.find },
@@ -22,7 +22,10 @@ module.exports = [
     { method: 'DELETE', path: '/api/pictures', config: Pictures.deleteAll },
     { method: 'DELETE', path: '/api/islands/{id}/pictures', config: Pictures.deletePictures },
 
-
-
+    { method: 'GET', path: '/api/reviews', config: Reviews.findAll },
+    { method: 'GET', path: '/api/islands/{id}/reviews', config: Reviews.findByIsland },
+    { method: 'POST', path: '/api/islands/{id}/reviews', config: Reviews.addReview },
+    { method: 'DELETE', path: '/api/reviews', config: Reviews.deleteAll },
+    { method: 'DELETE', path: '/api/islands/{id}/reviews', config: Reviews.deleteReviews },
 
 ];
