@@ -19,7 +19,8 @@ module.exports = [
     { method: 'GET', path: '/api/pictures', config: Pictures.findAll },
     { method: 'GET', path: '/api/islands/{id}/pictures', config: Pictures.findByIsland },
     { method: 'POST', path: '/api/islands/{id}/pictures', config: Pictures.addPicture },
-    { method: 'DELETE', path: '/api/pictures', config: Pictures.deleteAll }
+    { method: 'DELETE', path: '/api/pictures', config: Pictures.deleteAll },
+    { method: 'DELETE', path: '/api/islands/{id}/pictures', config: Pictures.deletePictures },
 
 
 

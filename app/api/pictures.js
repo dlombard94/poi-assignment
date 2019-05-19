@@ -34,6 +34,13 @@ const Pictures = {
             return picture;
         }
     },
+    deletePictures: {
+        auth: false,
+        handler: async function(request, h) {
+            await Picture.deleteMany({island: request.params.id });
+            return { success: true };
+        }
+    },
     deleteAll: {
         auth: false,
         handler: async function(request, h) {

@@ -127,10 +127,19 @@ class PoiService {
         }
     }
 
+    async deletePictures(islandId) {
+        try {
+            const response = await axios.delete(this.baseUrl + '/api/islands/' + islandId + '/pictures');
+            return response.data;
+        } catch (e) {
+            return null;
+        }
+    }
+
     async deleteAllPictures() {
         try {
             const response = await axios.delete(this.baseUrl +'/api/pictures');
-            return repsonse.data;
+            return response.data;
         } catch (e) {
             return null;
         }
