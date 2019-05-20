@@ -6,7 +6,9 @@ const Island = require('../models/island')
 
 const Pictures = {
     findAll: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function (request, h) {
             const pictures = await Picture.find();
             return pictures;
@@ -14,7 +16,9 @@ const Pictures = {
     },
 
     findByIsland: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             console.log(request.params.id);
             const pictures = await Picture.find({ island: request.params.id });
@@ -22,7 +26,9 @@ const Pictures = {
         }
     },
     addPicture: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             let picture = new Picture(request.payload);
             const island = await Island.findOne({ _id: request.params.id });
@@ -35,14 +41,18 @@ const Pictures = {
         }
     },
     deletePictures: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             await Picture.deleteMany({island: request.params.id });
             return { success: true };
         }
     },
     deleteAll: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             await Picture.deleteMany({});
             return { success: true };

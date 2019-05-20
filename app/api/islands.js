@@ -5,14 +5,18 @@ const Island = require('../models/island');
 const Islands = {
 
     find: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const islands = await Island.find();
             return islands;
         }
     },
     findOne: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             try {
                 const island = await Island.findOne({ _id: request.params.id });
@@ -26,7 +30,9 @@ const Islands = {
         }
     },
     create: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const newIsland = new Island(request.payload);
             const island = await newIsland.save();
@@ -38,7 +44,9 @@ const Islands = {
     },
 
     deleteAll: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             await Island.remove({});
             return { success: true };
@@ -46,7 +54,9 @@ const Islands = {
     },
 
     deleteOne: {
-        auth: false,
+        auth: {
+            strategy: 'jwt',
+        },
         handler: async function(request, h) {
             const response = await Island.deleteOne({ _id: request.params.id });
             if (response.deletedCount == 1) {
