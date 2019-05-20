@@ -28,4 +28,6 @@ module.exports = [
     { method: 'DELETE', path: '/api/reviews', config: Reviews.deleteAll },
     { method: 'DELETE', path: '/api/islands/{id}/reviews', config: Reviews.deleteReviews },
 
+
+
 ];
